@@ -1,3 +1,16 @@
 .firstDiv{
     margin: 30px;
+    font-size: 20px;
+}
+.firstDiv input{
+    height: 22px;
+}
+.firstBtn{
+    height: 26px;
+    width: 100px;
+}
+.TodoListDiv{
+    width: 400px;
+    height: 30px;
+    font-size: 20px;
 }

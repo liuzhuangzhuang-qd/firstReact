@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from  'prop-types'
 
 class TodoItem extends Component {
     // 代码一开始时运行constructor（props）{super（props）}
@@ -6,11 +7,22 @@ class TodoItem extends Component {
         super(props);
         this.handleClick = this.handleClick.bind(this);
     }
+    // 判断我的content有没有变化，有变化才去重新渲染组件，没有就不去重新渲染
+    // 提升组件性能，避免没有必要的render
+    shouldComponentUpdate(nextProps, nextState) {
+        // 接收两个参数,nextProps 指接下来我的props会变成什么样，nextState指接下来我的State会变成什么样
+        if(nextProps.content !== this.props.content) {
+            return true
+        } else {
+            return false
+        }
+    }
     render() {
-        const { content } = this.props;
+        const { content, text } = this.props;
         return (
+            // JSX -> createElement -> 虚拟dom（js 对象） -> 真实的dom
             <div onClick={this.handleClick}>
-                {content}
+                {text} - {content}
             </div>
         )
     }
@@ -21,5 +33,14 @@ class TodoItem extends Component {
         deleteItem(index)
     }
 }
-
+// PropTypes属性接收时做校验，判断类型是否正确
+TodoItem.porptypes = {
+    text: PropTypes.string.isRequired,
+    content: PropTypes.string,
+    deleteItem: PropTypes.func,
+    index: PropTypes.number,
+}
+TodoItem.defaultProps = {
+    text: 'hello word'
+}
 export default TodoItem;
