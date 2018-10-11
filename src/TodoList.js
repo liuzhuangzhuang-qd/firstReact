@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import TodeItem from './TodoItem';
+import axios from 'axios'
 import './style.css';
 
 class TodoList extends Component {
@@ -18,6 +19,18 @@ class TodoList extends Component {
     }
     componentWillMount() {
         console.log('componentWillMount')
+    }
+    componentDidMount() {
+        axios.get('/api/todList').then((res) => {
+            console.log(res.data)
+            this.setState(() => {
+                return{
+                    list: [...res.data],
+                }
+            })
+        }).catch(() => {
+            alert('error')
+        })
     }
     // componentWillReceiveProps(){}
     // 组件被更新前执行

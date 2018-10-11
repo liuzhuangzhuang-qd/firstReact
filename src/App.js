@@ -1,25 +1,40 @@
-import React, { Component } from 'react';
+import React, { Component,Fragment } from 'react';
+import { CSSTransition } from 'react-transition-group';
+import './AppStyle.css'
 
 class App extends Component {
+  constructor(props){
+    super(props);
+      this.state = {
+       show: true,
+      }
+      this.handleToggole = this.handleToggole.bind(this)
+  }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <p>
-            这是第一个react项目
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
+        <Fragment>
+          <CSSTransition
+          in = {this.state.show}
+          timeout={1000}
+          classNames='fade'
+          unmountOnExit
+          appear={true}
+          onEnter={(el) => {
+              el.style.color='blue'
+          }}
           >
-            Learn React
-          </a>
-        </header>
-      </div>
+            <div>我是一个动画</div>
+          </CSSTransition>
+          <button onClick={this.handleToggole}>点击</button>
+        </Fragment>
     );
   }
+    handleToggole() {
+    console.log('发生改变。。。。。。。。。。')
+        this.setState({
+            show: this.state.show ? false : true
+        })
+    }
 }
 
 export default App;
