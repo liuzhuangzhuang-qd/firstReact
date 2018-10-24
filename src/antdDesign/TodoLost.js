@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Input, Button, List  } from 'antd';
 import store from '../store/index'
-import { getInputChangeAction, handleBtnClickAction, handleItemDeleteAction } from '../store/actionCreators'
+import { getInputChangeAction, handleBtnClickAction, handleItemDeleteAction, getTodoList } from '../store/actionCreators'
 // import { CHANGE_INPUT_VALUE, ADD_LIST_ITEM, DELETE_TODO_LIST } from '../store/actiontype'
+import TodoListUI from '../store/TodoListUI'
 
 // const data = [
 //     'Racing car sprays burning fuel into crowd.',
@@ -19,29 +19,30 @@ class TodoLost extends Component {
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleStoreChange = this.handleStoreChange.bind(this)
         this.handleBtnClick = this.handleBtnClick.bind(this)
+        this.handleItemDelete = this.handleItemDelete.bind(this)
         store.subscribe(this.handleStoreChange)
         // console.log(store.getState())
     }
     render(){
         return(
-            <div style={{width: '500px',padding: '20px'}}>
-                <Input
-                    value={this.state.inputValue}
-                    placeholder="Basic usage"
-                    style={{width: '300px',marginRight: '20px'}}
-                    onChange={this.handleInputChange}
-                />
-                <Button type="primary" onClick={this.handleBtnClick}>提交</Button>
-                <List
-                    style={{marginTop: '20px'}}
-                    header={<div>Header</div>}
-                    footer={<div>Footer</div>}
-                    bordered
-                    dataSource={this.state.list}
-                    renderItem={(item, index) => (<List.Item onClick={this.handleItemDelete.bind(this, index)}>{item}</List.Item>)}
-                />
-            </div>
+            <TodoListUI
+                inputValue = {this.state.inputValue}
+                handleInputChange = {this.handleInputChange}
+                handleBtnClick = {this.handleBtnClick}
+                list = {this.state.list}
+                handleItemDelete = {this.handleItemDelete}
+            />
         )
+    }
+    componentDidMount(){
+        // axios.get('/list.json').then((res) => {
+        //     let data = res.data
+        //     const action = initListAction(data)
+        //     console.log(action)
+        //     store.dispatch(action)
+        // })
+        const action = getTodoList()
+        store.dispatch(action)
     }
     handleInputChange(e) {
         // const action = {
@@ -51,7 +52,6 @@ class TodoLost extends Component {
         // }
         const action = getInputChangeAction(e.target.value)
         store.dispatch(action)
-        // console.log(e.target.value())
     }
     handleStoreChange(e) {
         this.setState(store.getState())
@@ -68,6 +68,7 @@ class TodoLost extends Component {
         //     type: DELETE_TODO_LIST,
         //     index
         // }
+        console.log(index)
         const action = handleItemDeleteAction(index)
         store.dispatch(action)
     }

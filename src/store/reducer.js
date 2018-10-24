@@ -1,8 +1,8 @@
-import { CHANGE_INPUT_VALUE, ADD_LIST_ITEM, DELETE_TODO_LIST } from './actiontype'
+import { CHANGE_INPUT_VALUE, ADD_LIST_ITEM, DELETE_TODO_LIST, INIT_LIST_ACTION } from './actiontype'
 
 const defaultState = {
-    inputValue: '1221',
-    list: ['1', '2'],
+    inputValue: '',
+    list: ['11', '222', '333', '444'],
 }
 
 // redurcer 可以接收state，但是绝不能修改state
@@ -27,6 +27,11 @@ export default (state = defaultState, action) => {
     if (action.type === DELETE_TODO_LIST ) {
         const newState = JSON.parse(JSON.stringify(state))
         newState.list.splice(action.index, 1);
+        return newState
+    }
+    if (action.type === INIT_LIST_ACTION ) {
+        const newState = JSON.parse(JSON.stringify(state))
+        newState.list = action.data;
         return newState
     }
     return state;
