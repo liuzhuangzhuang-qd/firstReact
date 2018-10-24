@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
+import axios from 'axios';
 import store from '../store/index'
-import { getInputChangeAction, handleBtnClickAction, handleItemDeleteAction, getTodoList } from '../store/actionCreators'
+import { getInputChangeAction, handleBtnClickAction, handleItemDeleteAction, initListAction, getInitList } from '../store/actionCreators'
 // import { CHANGE_INPUT_VALUE, ADD_LIST_ITEM, DELETE_TODO_LIST } from '../store/actiontype'
 import TodoListUI from '../store/TodoListUI'
 
@@ -41,8 +42,13 @@ class TodoLost extends Component {
         //     console.log(action)
         //     store.dispatch(action)
         // })
-        const action = getTodoList()
+
+        // const action = getTodoList()
+        // store.dispatch(action)
+
+        const action = getInitList()
         store.dispatch(action)
+        console.log(action)
     }
     handleInputChange(e) {
         // const action = {
